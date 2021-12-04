@@ -10,7 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HangmanWords">
         <activity
-            android:name=".MainActivity"
+            android:name=".RegisterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".GameActivity"
+            android:exported="true" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,6 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
