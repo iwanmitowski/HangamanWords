@@ -3,6 +3,7 @@ package com.example.hangmanwords;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,10 +36,11 @@ public class GameActivity extends AppCompatActivity{
     Random rnd;
 
     int difficulty = 0;
-    int lives;
+    int lives = 0;
 
     String currentWord;
     String placeHolder;
+    String currentGuess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +53,22 @@ public class GameActivity extends AppCompatActivity{
         tvCurrentWord = findViewById(R.id.tvCurrentWord);
         userGuess = findViewById(R.id.etUserGuess);
         guess = findViewById(R.id.btnGuess);
+
         tvLives = findViewById(R.id.tvLives);
 
         generateWord();
         placeHolder = new String(new char[currentWord.length()]).replace('\0', '*');
         tvCurrentWord.setText(placeHolder);
-        lives = currentWord.length();
-        tvLives.setText(lives + "");
         hint.setText(currentWord);
+
+        guess.setOnClickListener(guessListener);
+
     }
 
     private void playGame() {
-        while(lives > 0){
-            boolean isGuessed = false;
 
-            String currentGuess = userGuess.getText().toString();
+        while(lives > 0){
+            currentGuess = userGuess.getText().toString();
 
             if (currentGuess.length() < 1 ||
                     !currentWord.contains(currentGuess)){
@@ -79,31 +82,12 @@ public class GameActivity extends AppCompatActivity{
                 continue;
             }
 
-            char currentLetter = currentGuess.charAt(0);
+            tvLives.setText(lives + "");
 
-            if (lives == 0){
-                //play gif
-            }
-
-            StringBuilder newWord = new StringBuilder();
-
-            for (int i = 0; i < currentWord.length(); i++) {
-                if (currentWord.charAt(i) == currentLetter){
-                    newWord.append(currentLetter);
-                }
-                else{
-                    newWord.append("*");
-                }
-            }
-
-            tvLives.setText(lives);
-
-            if (isGuessed){
-                //Write to db
-                difficulty++;
-                generateWord();
-            }
+            makeAGuess();
         }
+
+        Toast.makeText(getApplicationContext(), "YOU ARE HANGED", Toast.LENGTH_SHORT).show();
     }
 
     private void generateWord() {
@@ -117,6 +101,59 @@ public class GameActivity extends AppCompatActivity{
         else{
             currentWord = words1[rnd.nextInt(upperBoundary)];
         }
+
+        lives = currentWord.length();
+        tvLives.setText(lives + "");
     }
+
+    private void makeAGuess(){
+        String currentGuess = userGuess.getText().toString();
+
+        if (currentGuess.length() < 1 ||
+                !currentWord.contains(currentGuess)){
+            userGuess.setText("");
+            lives--;
+            tvLives.setText(lives + "");
+        }
+        else if(currentGuess.length() > 1){
+            userGuess.setText("");
+            Toast.makeText(getApplicationContext(), "Please, enter your only 1 letter!", Toast.LENGTH_SHORT).show();
+        }
+
+        showGuessedLetters();
+    }
+
+    private void showGuessedLetters() {
+
+        StringBuilder newWord = new StringBuilder();
+
+        char currentLetter = currentGuess.charAt(0);
+
+        for (int i = 0; i < currentWord.length(); i++) {
+            if (currentWord.charAt(i) == currentLetter){
+                newWord.append(currentLetter);
+            }
+            else{
+                newWord.append("*");
+            }
+        }
+
+        tvCurrentWord.setText(newWord.toString());
+
+        tvLives.setText(lives);
+
+        if (currentWord.contains("*")){
+            //Write to db
+            difficulty++;
+            generateWord();
+        }
+    }
+
+    View.OnClickListener guessListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            playGame();
+        }
+    };
 
 }
