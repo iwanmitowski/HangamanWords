@@ -28,10 +28,10 @@ public class GameActivity extends AppCompatActivity{
     };
 
     String[] words2 = {
-            "abroad", "accept", "favour", "floor", "flower",
-            "regard ", "content", "creator", "player", "receive",
+            "inconsistent", "improvement", "extraordinary", "dictionary", "flower",
+            "regardless ", "content", "creatoional", "contemporaneous", "receive",
             "football", "basketball", "volleyball", "unusual", "beautiful",
-            "group", "better", "words", "castle", "cannon"
+            "concurrent", "amazing", "words", "synchronous", "meaningful"
     };
 
     Random rnd;
