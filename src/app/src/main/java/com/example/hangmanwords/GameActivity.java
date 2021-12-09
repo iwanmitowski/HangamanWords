@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity{
@@ -41,25 +42,24 @@ public class GameActivity extends AppCompatActivity{
     String currentWord;
     String placeHolder;
     String currentGuess;
+    ArrayList<Character> alreadyGuessedLetters;
+    boolean isGuessed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        alreadyGuessedLetters = new ArrayList<>();
         rnd = new Random();
 
         hint = findViewById(R.id.tvHint);
         tvCurrentWord = findViewById(R.id.tvCurrentWord);
         userGuess = findViewById(R.id.etUserGuess);
         guess = findViewById(R.id.btnGuess);
-
         tvLives = findViewById(R.id.tvLives);
 
         generateWord();
-        placeHolder = new String(new char[currentWord.length()]).replace('\0', '*');
-        tvCurrentWord.setText(placeHolder);
-        hint.setText(currentWord);
 
         guess.setOnClickListener(guessListener);
 
@@ -67,33 +67,38 @@ public class GameActivity extends AppCompatActivity{
 
     private void playGame() {
 
-        while(lives > 0){
+
+        while(lives > 0 && isGuessed == false){
             currentGuess = userGuess.getText().toString();
 
-            if (currentGuess.length() < 1 ||
-                    !currentWord.contains(currentGuess)){
-                userGuess.setText("");
-                lives--;
-                tvLives.setText(lives + "");
-            }
-            else if(currentGuess.length() > 1){
-                userGuess.setText("");
-                Toast.makeText(getApplicationContext(), "Please, enter your only 1 letter!", Toast.LENGTH_SHORT).show();
-                continue;
+            if (currentGuess.length() == 0){
+                return;
             }
 
             tvLives.setText(lives + "");
 
+            if (!currentWord.contains(currentGuess.charAt(0) + "")){
+                userGuess.setText("");
+                lives--;
+                tvLives.setText(lives + "");
+                continue;
+            }
+
             makeAGuess();
         }
 
-        Toast.makeText(getApplicationContext(), "YOU ARE HANGED", Toast.LENGTH_SHORT).show();
+        if (isGuessed){
+            isGuessed = false;
+        }
+        if(lives <= 0){
+            Toast.makeText(getApplicationContext(), "YOU ARE HANGED", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void generateWord() {
-        
+
         int upperBoundary = words1.length;
-        
+
         if (difficulty % 2 != 0){
             upperBoundary = words2.length;
             currentWord = words2[rnd.nextInt(upperBoundary)];
@@ -102,25 +107,25 @@ public class GameActivity extends AppCompatActivity{
             currentWord = words1[rnd.nextInt(upperBoundary)];
         }
 
+        alreadyGuessedLetters.clear();
         lives = currentWord.length();
         tvLives.setText(lives + "");
+        placeHolder = new String(new char[currentWord.length()]).replace('\0', '*');
+        tvCurrentWord.setText(placeHolder);
+        hint.setText(currentWord);
     }
 
     private void makeAGuess(){
-        String currentGuess = userGuess.getText().toString();
+        currentGuess = userGuess.getText().toString();
 
-        if (currentGuess.length() < 1 ||
-                !currentWord.contains(currentGuess)){
-            userGuess.setText("");
-            lives--;
-            tvLives.setText(lives + "");
-        }
-        else if(currentGuess.length() > 1){
+        if(currentGuess.length() != 1){
             userGuess.setText("");
             Toast.makeText(getApplicationContext(), "Please, enter your only 1 letter!", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         showGuessedLetters();
+        userGuess.setText("");
     }
 
     private void showGuessedLetters() {
@@ -128,10 +133,13 @@ public class GameActivity extends AppCompatActivity{
         StringBuilder newWord = new StringBuilder();
 
         char currentLetter = currentGuess.charAt(0);
+        alreadyGuessedLetters.add(currentLetter);
 
         for (int i = 0; i < currentWord.length(); i++) {
-            if (currentWord.charAt(i) == currentLetter){
-                newWord.append(currentLetter);
+            char currentChar = currentWord.charAt(i);
+
+            if (alreadyGuessedLetters.contains(currentChar)){
+                newWord.append(currentChar);
             }
             else{
                 newWord.append("*");
@@ -140,19 +148,22 @@ public class GameActivity extends AppCompatActivity{
 
         tvCurrentWord.setText(newWord.toString());
 
-        tvLives.setText(lives);
+        tvLives.setText(lives + "");
 
-        if (currentWord.contains("*")){
+        if (!newWord.toString().contains("*")){
             //Write to db
             difficulty++;
             generateWord();
+            isGuessed = true;
         }
     }
 
     View.OnClickListener guessListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            playGame();
+
+                playGame();
+
         }
     };
 
