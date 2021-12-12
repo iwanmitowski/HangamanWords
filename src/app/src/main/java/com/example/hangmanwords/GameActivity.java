@@ -2,6 +2,7 @@ package com.example.hangmanwords;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,7 @@ public class GameActivity extends AppCompatActivity{
     String currentGuess;
     ArrayList<Character> alreadyGuessedLetters;
     boolean isGuessed = false;
+    StringBuilder allGuessedLetters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class GameActivity extends AppCompatActivity{
         userGuess = findViewById(R.id.etUserGuess);
         guess = findViewById(R.id.btnGuess);
         tvLives = findViewById(R.id.tvLives);
+        allGuessedLetters = new StringBuilder();
 
         generateWord();
 
@@ -79,7 +82,18 @@ public class GameActivity extends AppCompatActivity{
 
             if (!currentWord.contains(currentGuess.charAt(0) + "")){
                 userGuess.setText("");
-                lives--;
+
+
+                char currentLetter = currentGuess.charAt(0);
+                if (!alreadyGuessedLetters.contains(currentLetter))
+                {
+                    alreadyGuessedLetters.add(currentLetter);
+                    allGuessedLetters.append(alreadyGuessedLetters.get(alreadyGuessedLetters.size() - 1) + "");
+                    lives--;
+                }
+
+                hint.setText(allGuessedLetters.toString());
+
                 tvLives.setText(lives + "");
                 continue;
             }
@@ -108,6 +122,7 @@ public class GameActivity extends AppCompatActivity{
         }
 
         alreadyGuessedLetters.clear();
+        allGuessedLetters = new StringBuilder();
         lives = currentWord.length();
         tvLives.setText(lives + "");
         placeHolder = new String(new char[currentWord.length()]).replace('\0', '*');
