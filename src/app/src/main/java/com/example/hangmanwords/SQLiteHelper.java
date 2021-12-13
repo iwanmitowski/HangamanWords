@@ -50,26 +50,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    //При регистрация
-    //В базата се проверява има ли такъв user
-
-    //+ Ако има
-    //Toast отказващ регистрация
-
-    //- Ако няма
-    //Записваме го и insert-ваме хешираната парола
-
-
-    //При логин
-    //В базата се проверява има ли такъв user
-
-    //+ Ако има:
-    //В базата се бърка където името е идентично и се сравнява паролата със записания hash
-
-    //- Ako няма:
-    //Toast подканващ към регистраиця
-
-
     //Winstreak: най-много победи направени подред, не само за момента
     //Update winstreak при бесене:
     //След всяка позната дума, се обновява winstreak-a, ako e по-добър от предишния
@@ -168,7 +148,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
         finally {
             database.close();
-
         }
 
         return user;

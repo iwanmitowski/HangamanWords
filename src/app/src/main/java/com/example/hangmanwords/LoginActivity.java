@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     boolean isExisting = sqLiteHelper.userExists(etUsername.getText().toString());
 
-                    //Check if exists in db
                     if(isExisting){
 
                         User loginCredentials = new User();
@@ -79,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     else{
                         Toast.makeText(getApplicationContext(), "Please, register!", Toast.LENGTH_SHORT).show();
-                        return;
+                        intent = new Intent(LoginActivity.this,RegisterActivity.class);
                     }
 
                     break;
@@ -99,10 +98,11 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     public String get_SHA_512_SecurePassword(String passwordToHash){
+        String salt = "";
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update("".getBytes(StandardCharsets.UTF_8));
+            md.update(salt.getBytes(StandardCharsets.UTF_8)); //The empty string is the salt!
             byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
             for(int i=0; i< bytes.length ;i++){

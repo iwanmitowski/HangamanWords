@@ -43,5 +43,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.firebase:firebase-inappmessaging-display:17.2.0'
     implementation 'com.google.guava:guava:27.0.1-android'
-    implementation group: 'at.favre.lib', name: 'bcrypt', version: '0.9.0'
 }
