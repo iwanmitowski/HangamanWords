@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/etUsername2"
+        android:id="@+id/etUsernameRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="111dp"
@@ -41,11 +41,11 @@
         android:layout_marginStart="96dp"
         android:layout_marginBottom="17dp"
         android:text="Username"
-        app:layout_constraintBottom_toTopOf="@+id/etUsername2"
+        app:layout_constraintBottom_toTopOf="@+id/etUsernameRegister"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/etPassword2"
+        android:id="@+id/etPasswordRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="58dp"
@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUsername2" />
+        app:layout_constraintTop_toBottomOf="@+id/etUsernameRegister" />
 
     <TextView
         android:id="@+id/tvPassword2"
@@ -65,11 +65,11 @@
         android:layout_marginStart="96dp"
         android:layout_marginBottom="17dp"
         android:text="Password"
-        app:layout_constraintBottom_toTopOf="@+id/etPassword2"
+        app:layout_constraintBottom_toTopOf="@+id/etPasswordRegister"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnRegister2"
+        android:id="@+id/btnCreateRegistration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="38dp"
@@ -79,5 +79,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword2" />
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordRegister" />
 </androidx.constraintlayout.widget.ConstraintLayout>
