@@ -48,7 +48,10 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (isRegistrationSuccessful){
                 Intent intent = new Intent(RegisterActivity.this, GameActivity.class);
-                intent.putExtra("user",userInputModel);
+
+                User user = sqLiteHelper.getSingleUserInfo(userInputModel);
+
+                intent.putExtra("user", user);
                 startActivity(intent);
                 return;
             }

@@ -41,6 +41,7 @@ public class GameActivity extends AppCompatActivity{
     int difficulty = 0;
     int lives = 0;
     int streak = 0;
+    int longestStreak = 0;
 
     String currentWord;
     String placeHolder;
@@ -49,7 +50,7 @@ public class GameActivity extends AppCompatActivity{
     boolean isGuessed = false;
     StringBuilder incorrectGuessedLetters;
     User currentUser;
-
+    SQLiteHelper sqLiteHelper;
     //after hung show gif and retry button
     //write in db if current streak > the streak in db after hung
 
@@ -58,6 +59,7 @@ public class GameActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        sqLiteHelper = new SQLiteHelper(GameActivity.this);
         currentUser = getIntent().getParcelableExtra("user");
 
         alreadyGuessedLetters = new ArrayList<>();
@@ -72,7 +74,8 @@ public class GameActivity extends AppCompatActivity{
         tvCurrentStreak = findViewById(R.id.tvCurrentStreak);
         tvCurrentStreak.setText("Current streak: " + streak);
         tvBestStreak = findViewById(R.id.tvBestStreak);
-        tvBestStreak.setText(currentUser.username + ", your longest winning streak is: " + currentUser.winstreak);
+        longestStreak = currentUser.winstreak;
+        tvBestStreak.setText(currentUser.username + ", your longest winning streak is: " + longestStreak);
 
         generateWord();
 
@@ -118,6 +121,9 @@ public class GameActivity extends AppCompatActivity{
         }
         if(lives <= 0){
             Toast.makeText(getApplicationContext(), "YOU ARE HANGED", Toast.LENGTH_SHORT).show();
+            updateCurrentUserStreak();
+            //play gif here
+            //show retry button ? maybe another view with highscores and the gif
         }
     }
 
@@ -178,12 +184,17 @@ public class GameActivity extends AppCompatActivity{
         tvLives.setText(lives + "");
 
         if (!newWord.toString().contains("*")){
-            //Write to db
             difficulty++;
             generateWord();
             isGuessed = true;
             streak++;
             tvCurrentStreak.setText("Current streak: " + streak);
+        }
+    }
+
+    private void updateCurrentUserStreak() {
+        if(streak > longestStreak){
+            sqLiteHelper.updateUserScore(currentUser, streak);
         }
     }
 

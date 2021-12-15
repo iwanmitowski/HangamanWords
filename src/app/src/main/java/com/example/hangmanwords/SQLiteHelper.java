@@ -147,4 +147,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         return user;
     }
+
+    public void updateUserScore(User user, int currentStreak){
+
+        SQLiteDatabase database = getWritableDatabase();
+
+        database.beginTransaction();
+
+        try{
+            ContentValues values = new ContentValues();
+            values.put(Table_Users_Winstreak, currentStreak);
+
+            database.update(Table_Users, values, Table_Users_UserName + " = ? and " + Table_Users_HashedPassword + " = ?", new String[]{user.username, user.hashedPassword} );
+            database.setTransactionSuccessful();
+        }
+        catch(Exception e){
+            //Catches exception
+        }
+        finally {
+            database.endTransaction();
+        }
+    }
 }
