@@ -7,14 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import at.favre.lib.crypto.bcrypt.BCrypt;
-
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 

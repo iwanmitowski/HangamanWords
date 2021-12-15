@@ -1,20 +1,17 @@
 package com.example.hangmanwords;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -70,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (isVerified){
                             intent = new Intent(LoginActivity.this, GameActivity.class);
+                            intent.putExtra("user",userInputModel);
                         }
                         else{
                             Toast.makeText(getApplicationContext(), "Check your username or password!", Toast.LENGTH_SHORT).show();

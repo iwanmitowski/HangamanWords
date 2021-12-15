@@ -45,11 +45,18 @@ public class GameActivity extends AppCompatActivity{
     ArrayList<Character> alreadyGuessedLetters;
     boolean isGuessed = false;
     StringBuilder incorrectGuessedLetters;
+    User currentUser;
+
+    //tv with current winstreak
+    //after hung show gif and retry button
+    //write in db if current streak > the streak in db after hung
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        currentUser = getIntent().getParcelableExtra("user");
 
         alreadyGuessedLetters = new ArrayList<>();
         rnd = new Random();
