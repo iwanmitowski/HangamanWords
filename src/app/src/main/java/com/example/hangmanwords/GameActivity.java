@@ -19,6 +19,8 @@ public class GameActivity extends AppCompatActivity{
     EditText userGuess;
     Button guess;
     TextView tvLives;
+    TextView tvCurrentStreak;
+    TextView tvBestStreak;
 
     String[] words1 = {
         "horse", "bread", "apple", "food", "doost",
@@ -38,6 +40,7 @@ public class GameActivity extends AppCompatActivity{
 
     int difficulty = 0;
     int lives = 0;
+    int streak = 0;
 
     String currentWord;
     String placeHolder;
@@ -47,7 +50,6 @@ public class GameActivity extends AppCompatActivity{
     StringBuilder incorrectGuessedLetters;
     User currentUser;
 
-    //tv with current winstreak
     //after hung show gif and retry button
     //write in db if current streak > the streak in db after hung
 
@@ -67,6 +69,10 @@ public class GameActivity extends AppCompatActivity{
         guess = findViewById(R.id.btnGuess);
         tvLives = findViewById(R.id.tvLives);
         incorrectGuessedLetters = new StringBuilder();
+        tvCurrentStreak = findViewById(R.id.tvCurrentStreak);
+        tvCurrentStreak.setText("Current streak: " + streak);
+        tvBestStreak = findViewById(R.id.tvBestStreak);
+        tvBestStreak.setText(currentUser.username + ", your longest winning streak is: " + currentUser.winstreak);
 
         generateWord();
 
@@ -176,6 +182,8 @@ public class GameActivity extends AppCompatActivity{
             difficulty++;
             generateWord();
             isGuessed = true;
+            streak++;
+            tvCurrentStreak.setText("Current streak: " + streak);
         }
     }
 
