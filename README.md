@@ -54,24 +54,9 @@ Redirecting to Scores activity saving and saving his current streak if the user 
 ## ✍️ Author <a name = "author"></a>
 - [@iwanmitowski](https://github.com/iwanmitowski) - Idea, Initial work, Design
 
-## 🎉 Screenshots <a name = "screenshots"></a>
-```
-```
-![ScreenShot](https://raw.github.com/iwanmitowski/HangamanWords/main/ss1.png)
-```
-```
-```
-```
-![ScreenShot](https://raw.github.com/iwanmitowski/HangamanWords/main/ss2.png)
-```
-```
-```
-```
-![ScreenShot](https://raw.github.com/iwanmitowski/HangamanWords/main/ss3.png)
-```
-```
-```
-```
-![ScreenShot](https://raw.github.com/iwanmitowski/HangamanWords/main/ss4.png)
-```
-```
+## 📸 Screenshots <a name = "screenshots"></a>
+
+<kbd><img src="https://github.com/iwanmitowski/HangamanWords/blob/main/imgs/ss1.png" /></kbd>
+<kbd><img src="https://github.com/iwanmitowski/HangamanWords/blob/main/imgs/ss2.png" /></kbd>
+<kbd><img src="https://github.com/iwanmitowski/HangamanWords/blob/main/imgs/ss3.png" /></kbd>
+<kbd><img src="https://github.com/iwanmitowski/HangamanWords/blob/main/imgs/ss4.png" /></kbd>
