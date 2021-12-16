@@ -57,13 +57,13 @@ public class LoginActivity extends AppCompatActivity {
                     if(isExisting){
 
                         User loginCredentials = new User();
-                        loginCredentials.username = etUsername.getText().toString();
+                        loginCredentials.setUsername(etUsername.getText().toString());
 
                         User userInputModel = sqLiteHelper.getSingleUserInfo(loginCredentials);
 
                         //qwe
                         //123
-                        boolean isVerified = comparePasswordHash(userInputModel.hashedPassword, etPassword.getText().toString());
+                        boolean isVerified = comparePasswordHash(userInputModel.getHashedPassword(), etPassword.getText().toString());
 
                         if (isVerified){
                             intent = new Intent(LoginActivity.this, GameActivity.class);
@@ -90,27 +90,10 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     private boolean comparePasswordHash(String hashedPassword, String password) {
-        String currentPasswordHash = get_SHA_512_SecurePassword(password);
+        String currentPasswordHash = PasswordHasher.get_SHA_512_SecurePassword(password);
 
         return hashedPassword.equals(currentPasswordHash);
     };
 
-    public String get_SHA_512_SecurePassword(String passwordToHash){
-        String salt = "";
-        String generatedPassword = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(salt.getBytes(StandardCharsets.UTF_8)); //The empty string is the salt!
-            byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++){
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            generatedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
 
-        return generatedPassword;
-    }
 }

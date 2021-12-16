@@ -84,7 +84,7 @@
         android:layout_marginTop="26dp"
         android:backgroundTint="#FFFFFF"
         android:text="Register"
-        android:textColor="#7F07F4"
+        android:textColor="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />

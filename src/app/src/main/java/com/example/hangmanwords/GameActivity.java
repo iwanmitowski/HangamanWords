@@ -2,6 +2,7 @@ package com.example.hangmanwords;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity{
 
+    //To hide the hint comment line 154 (hint will be overwritten after the first guess if the letter is incorrect)
     TextView hint;
     TextView tvCurrentWord;
     EditText userGuess;
@@ -51,8 +53,6 @@ public class GameActivity extends AppCompatActivity{
     StringBuilder incorrectGuessedLetters;
     User currentUser;
     SQLiteHelper sqLiteHelper;
-    //after hung show gif and retry button
-    //write in db if current streak > the streak in db after hung
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,21 +70,23 @@ public class GameActivity extends AppCompatActivity{
         userGuess = findViewById(R.id.etUserGuess);
         guess = findViewById(R.id.btnGuess);
         tvLives = findViewById(R.id.tvLives);
+
         incorrectGuessedLetters = new StringBuilder();
+
         tvCurrentStreak = findViewById(R.id.tvCurrentStreak);
         tvCurrentStreak.setText("Current streak: " + streak);
+
         tvBestStreak = findViewById(R.id.tvBestStreak);
-        longestStreak = currentUser.winstreak;
-        tvBestStreak.setText(currentUser.username + ", your longest winning streak is: " + longestStreak);
+
+        longestStreak = currentUser.getWinstreak();
+        tvBestStreak.setText(currentUser.getUsername() + ", your longest winning streak is: " + longestStreak);
 
         generateWord();
 
         guess.setOnClickListener(guessListener);
-
     }
 
     private void playGame() {
-
 
         while(lives > 0 && isGuessed == false){
             currentGuess = userGuess.getText().toString();
@@ -93,7 +95,7 @@ public class GameActivity extends AppCompatActivity{
                 return;
             }
 
-            tvLives.setText(lives + "");
+            tvLives.setText("Lives: " + lives);
 
             if (!currentWord.contains(currentGuess.charAt(0) + "")){
                 userGuess.setText("");
@@ -107,9 +109,9 @@ public class GameActivity extends AppCompatActivity{
                     lives--;
                 }
 
-                hint.setText(incorrectGuessedLetters.toString());
+                hint.setText("Used letters: " + incorrectGuessedLetters.toString());
 
-                tvLives.setText(lives + "");
+                tvLives.setText("Lives: " + lives);
                 continue;
             }
 
@@ -119,11 +121,15 @@ public class GameActivity extends AppCompatActivity{
         if (isGuessed){
             isGuessed = false;
         }
+
         if(lives <= 0){
-            Toast.makeText(getApplicationContext(), "YOU ARE HANGED", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "YOU ARE HANGED", Toast.LENGTH_LONG).show();
             updateCurrentUserStreak();
-            //play gif here
-            //show retry button ? maybe another view with highscores and the gif
+
+            Intent intent = new Intent(GameActivity.this, ScoresActivity.class);
+            intent.putExtra("user", currentUser);
+
+            startActivity(intent);
         }
     }
 
@@ -142,7 +148,7 @@ public class GameActivity extends AppCompatActivity{
         alreadyGuessedLetters.clear();
         incorrectGuessedLetters = new StringBuilder();
         lives = currentWord.length();
-        tvLives.setText(lives + "");
+        tvLives.setText("Lives: " + lives);
         placeHolder = new String(new char[currentWord.length()]).replace('\0', '*');
         tvCurrentWord.setText(placeHolder);
         hint.setText(currentWord);
@@ -181,7 +187,7 @@ public class GameActivity extends AppCompatActivity{
 
         tvCurrentWord.setText(newWord.toString());
 
-        tvLives.setText(lives + "");
+        tvLives.setText("Lives: " + lives);
 
         if (!newWord.toString().contains("*")){
             difficulty++;
@@ -194,6 +200,7 @@ public class GameActivity extends AppCompatActivity{
 
     private void updateCurrentUserStreak() {
         if(streak > longestStreak){
+            currentUser.setWinstreak(streak);
             sqLiteHelper.updateUserScore(currentUser, streak);
         }
     }
@@ -201,9 +208,7 @@ public class GameActivity extends AppCompatActivity{
     View.OnClickListener guessListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
-                playGame();
-
+            playGame();
         }
     };
 

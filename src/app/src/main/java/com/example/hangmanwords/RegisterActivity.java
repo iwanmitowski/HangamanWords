@@ -41,8 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             User userInputModel = new User();
-            userInputModel.username = etUsername.getText().toString();
-            userInputModel.password = etPassword.getText().toString();
+            userInputModel.setUsername(etUsername.getText().toString());
+            userInputModel.setPassword(etPassword.getText().toString());
 
             boolean isRegistrationSuccessful = sqLiteHelper.registerUser(userInputModel);
 

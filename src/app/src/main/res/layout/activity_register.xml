@@ -75,7 +75,7 @@
         android:layout_marginTop="38dp"
         android:backgroundTint="#FFFFFF"
         android:text="Register"
-        android:textColor="#7F07F4"
+        android:textColor="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

@@ -4,12 +4,52 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class User implements Parcelable {
-    String username;
-    String hashedPassword;
-    String password;
-    int winstreak;
+    private String username;
+    private String hashedPassword;
+    private String password;
+    private int winstreak;
 
     public User() {
+    }
+
+    public String getUsername()
+    {
+        return username;
+    }
+
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+
+    public String getHashedPassword()
+    {
+        return hashedPassword;
+    }
+
+    public void setHashedPassword(String hashedPassword)
+    {
+        this.hashedPassword = hashedPassword;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
+    public int getWinstreak()
+    {
+        return winstreak;
+    }
+
+    public void setWinstreak(int winstreak)
+    {
+        this.winstreak = winstreak;
     }
 
     protected User(Parcel in) {
