@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:layout_marginBottom="632dp"
-        android:text="Welcome to Hangman Words"
+        android:text="Welcome to Hangaman Words"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
