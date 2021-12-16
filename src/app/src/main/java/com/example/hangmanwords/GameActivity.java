@@ -123,7 +123,7 @@ public class GameActivity extends AppCompatActivity{
         }
 
         if(lives <= 0){
-            Toast.makeText(getApplicationContext(), "YOU ARE HANGED", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "YOU ARE HUNG", Toast.LENGTH_LONG).show();
             updateCurrentUserStreak();
 
             Intent intent = new Intent(GameActivity.this, ScoresActivity.class);
